@@ -2,8 +2,8 @@
   <q-item
     clickable
     tag="a"
-    target="_blank"
-    :href="link"
+    :target="target"
+    :[linkAttr]="link"
   >
     <q-item-section
       v-if="icon"
@@ -43,6 +43,19 @@ export default {
     icon: {
       type: String,
       default: ''
+    },
+
+    external: {
+      type: Boolean,
+      default: false
+    }
+  },
+  computed: {
+    linkAttr () {
+      return this.external ? 'href' : 'to'
+    },
+    target () {
+      return this.external ? '_blank' : '_self'
     }
   }
 }
