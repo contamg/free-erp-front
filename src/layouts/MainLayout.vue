@@ -109,6 +109,11 @@ const linksData = [
     title: 'Accounts',
     icon: 'business',
     link: 'accounts'
+  },
+  {
+    title: 'Invoices',
+    icon: 'description',
+    link: 'invoices'
   }
 ]
 
