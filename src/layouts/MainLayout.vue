@@ -44,9 +44,11 @@
           link="login"
         />
         <q-btn
+          flat
           v-else
           label="Logout"
-          @click="$store.dispatch('auth/logout')"
+          icon="account_circle"
+          @click="logout"
         />
 
       </q-list>
@@ -102,6 +104,11 @@ const linksData = [
     icon: 'public',
     link: 'https://facebook.quasar.dev',
     external: true
+  },
+  {
+    title: 'Accounts',
+    icon: 'business',
+    link: 'accounts'
   }
 ]
 
@@ -111,6 +118,12 @@ export default {
     return {
       leftDrawerOpen: false,
       essentialLinks: linksData
+    }
+  },
+  methods: {
+    async logout () {
+      await this.$store.dispatch('auth/logout')
+      this.$router.replace('/', () => {})
     }
   }
 }

@@ -34,7 +34,8 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
+import { normalizeErrors } from '@/utils'
 
 import validateMixin from '@/mixins/validation'
 
@@ -48,13 +49,27 @@ export default {
   methods: {
     ...mapActions('auth', ['login']),
     async onSubmit () {
-      if (await this.login({
+      await this.login({
         email: this.email,
         password: this.password
-      })) {
+      })
+      if (this.errors) {
+        const message = normalizeErrors(this.errors)
+
+        this.$q.dialog({
+          title: 'Error',
+          message: message,
+          html: true
+        })
+
+        this.clearErrors()
+      } else {
         this.$router.replace('/')
       }
     }
+  },
+  computed: {
+    ...mapGetters('auth', ['errors'])
   },
   mixins: [validateMixin]
 }

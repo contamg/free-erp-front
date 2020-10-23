@@ -5,6 +5,9 @@
 </template>
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  async beforeCreate () {
+    await this.$store.dispatch('auth/verifyLogin')
+  }
 }
 </script>
