@@ -27,13 +27,14 @@ export default {
       await axios.post(`${API_URL}/auth/logout`, null, {
         headers: { Authorization: `Bearer ${context.getters.token}` }
       })
-      LocalStorage.remove('auth')
-      context.commit('setState', { token: null, expiresIn: null })
     } catch (error) {
       Dialog.create({
         title: 'Error',
         message: error
       })
+    } finally {
+      LocalStorage.remove('auth')
+      context.commit('setState', { token: null, expiresIn: null })
     }
   },
   verifyLogin (context) {

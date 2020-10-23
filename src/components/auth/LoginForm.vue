@@ -4,10 +4,12 @@
     <q-form
       @submit.prevent="onSubmit"
       class="q-gutter-md"
+      novalidate
     >
       <h2 class="text-h2">Login</h2>
       <q-input
         filled
+        type="email"
         v-model.trim="email"
         label="Your Email *"
         hint="Example: joe@mail.com"
@@ -47,14 +49,19 @@ export default {
     }
   },
   methods: {
-    ...mapActions('auth', ['login']),
+    ...mapActions('auth', ['login', 'clearErrors']),
     async onSubmit () {
       await this.login({
         email: this.email,
         password: this.password
       })
       if (this.errors) {
-        const message = normalizeErrors(this.errors)
+        let message = ''
+        if (typeof this.errors === 'object') {
+          message = normalizeErrors(this.errors)
+        } else {
+          message = this.errors
+        }
 
         this.$q.dialog({
           title: 'Error',
