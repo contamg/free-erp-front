@@ -37,6 +37,18 @@
           :key="link.title"
           v-bind="link"
         />
+        <q-essential-link
+          v-if="!$store.getters['auth/isLoggedIn']"
+          title="Login"
+          icon="login"
+          link="login"
+        />
+        <q-btn
+          v-else
+          label="Logout"
+          @click="$store.dispatch('auth/logout')"
+        />
+
       </q-list>
     </q-drawer>
 
@@ -90,11 +102,6 @@ const linksData = [
     icon: 'public',
     link: 'https://facebook.quasar.dev',
     external: true
-  },
-  {
-    title: 'Login',
-    icon: 'account_circle',
-    link: 'login'
   }
 ]
 

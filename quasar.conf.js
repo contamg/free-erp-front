@@ -73,7 +73,7 @@ module.exports = function (/* ctx */) {
         })
         cfg.resolve.alias = {
           ...cfg.resolve.alias,
-          utils: path.resolve(__dirname, './src/utils')
+          '@': path.resolve(__dirname, './src')
         }
       }
     },

@@ -8,7 +8,7 @@
 import RegisterForm from 'components/auth/RegisterForm'
 
 export default {
-  name: 'PageLogin',
+  name: 'PageRegister',
   components: {
     RegisterForm
   }

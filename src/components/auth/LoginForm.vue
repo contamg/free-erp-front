@@ -5,13 +5,14 @@
       @submit.prevent="onSubmit"
       class="q-gutter-md"
     >
+      <h2 class="text-h2">Login</h2>
       <q-input
         filled
         v-model.trim="email"
         label="Your Email *"
         hint="Example: joe@mail.com"
         lazy-rules
-        :rules="[ val => isValidEmailAddress(val) || 'Please type a valid email address']"
+        :rules="[ val => val && isValidEmailAddress(val) || 'Please type a valid email address']"
       />
 
       <q-input
@@ -20,7 +21,7 @@
         v-model.trim="password"
         label="Your password *"
         lazy-rules
-        :rules="[ val => val.length > 5 || 'Please type at least 6 characters' ]"
+        :rules="[ val => val && val.length > 5 || 'Please type at least 6 characters' ]"
       />
 
       <div>
@@ -35,6 +36,8 @@
 <script>
 import { mapActions } from 'vuex'
 
+import validateMixin from '@/mixins/validation'
+
 export default {
   data () {
     return {
@@ -44,11 +47,6 @@ export default {
   },
   methods: {
     ...mapActions('auth', ['login']),
-    isValidEmailAddress (val) {
-      // eslint-disable-next-line no-useless-escape
-      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      return re.test(String(val).toLowerCase())
-    },
     async onSubmit () {
       if (await this.login({
         email: this.email,
@@ -57,7 +55,8 @@ export default {
         this.$router.replace('/')
       }
     }
-  }
+  },
+  mixins: [validateMixin]
 }
 </script>
 
