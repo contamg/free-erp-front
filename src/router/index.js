@@ -26,12 +26,16 @@ export default function ({ store }) {
     base: process.env.VUE_ROUTER_BASE
   })
 
-  Router.beforeEach(function (to, _, next) {
+  Router.beforeEach(async function (to, _, next) {
     if (to.meta.requiresAuth && !store.getters['auth/isLoggedIn']) {
       next('/login')
     } else if (to.meta.requiresUnAuth && store.getters['auth/isLoggedIn']) {
-      next('/accounts')
+      next('/')
     } else {
+      await store.dispatch('auth/refreshToken')
+      if (to.meta.requiresAuth && !store.getters['auth/isLoggedIn']) {
+        next('/login')
+      }
       next()
     }
   })

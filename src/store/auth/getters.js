@@ -3,7 +3,7 @@ export default {
     return state.token
   },
   expiresIn (state) {
-    return state.token
+    return state.expiresIn
   },
   errors (state) {
     return state.errors

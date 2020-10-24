@@ -9,6 +9,8 @@ export default {
     context.dispatch('shouldUpdate')
     if (!context.getters.shouldUpdate) return
 
+    // await context.dispatch('auth/refreshToken', null, { root: true })
+
     try {
       const { data } = await axios.get(`${API_URL}/accounts`, {
         headers: { Authorization: `Bearer ${context.rootGetters['auth/token']}` }

@@ -37,6 +37,21 @@ export default {
       context.commit('setState', { token: null, expiresIn: null })
     }
   },
+  async refreshToken (context) {
+    const currentTime = new Date().getTime()
+    if (context.getters.expiresIn && currentTime > context.getters.expiresIn - 10000) {
+      try {
+        const { data } = await axios.get(`${API_URL}/auth/refresh`, {
+          headers: { Authorization: `Bearer ${context.getters.token}` }
+        })
+        context.dispatch('setToken', { token: data.access_token, expiresIn: getExpiresIn(data.expires_in) })
+      } catch (error) {
+        console.error(error.response.data.message)
+        LocalStorage.remove('auth')
+        context.commit('setState', { token: null, expiresIn: null })
+      }
+    }
+  },
   verifyLogin (context) {
     const auth = LocalStorage.getItem('auth')
     if (auth) {

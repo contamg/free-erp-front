@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import general from './general'
 import auth from './auth'
 import accounts from './accounts'
 
@@ -19,7 +20,8 @@ export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
       auth,
-      accounts
+      accounts,
+      general
     },
 
     // enable strict mode (adds overhead!)

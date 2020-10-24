@@ -14,7 +14,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
+
+import spinnerMixin from '@/mixins/spinner'
 
 export default {
   data () {
@@ -33,12 +35,21 @@ export default {
       ]
     }
   },
+  methods: {
+    ...mapActions('accounts', ['getAccounts']),
+    async loadAccounts () {
+      this.showLoading()
+      await this.getAccounts()
+      this.hideLoading()
+    }
+  },
   computed: {
     ...mapGetters('accounts', ['accounts'])
   },
   mounted () {
-    this.$store.dispatch('accounts/getAccounts')
-  }
+    this.loadAccounts()
+  },
+  mixins: [spinnerMixin]
 }
 </script>
 
