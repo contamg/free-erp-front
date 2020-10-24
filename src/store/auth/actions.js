@@ -4,6 +4,7 @@ import Dialog, { LocalStorage } from 'quasar'
 import { getExpiresIn } from '@/utils'
 
 const API_URL = process.env.VUE_APP_API_URL
+const TIME_TO_REFRESH = process.env.VUE_APP_TIME_TO_REFRESH
 
 export default {
   async login (context, payload) {
@@ -39,14 +40,14 @@ export default {
   },
   async refreshToken (context) {
     const currentTime = new Date().getTime()
-    if (context.getters.expiresIn && currentTime > context.getters.expiresIn - 10000) {
+    if (context.getters.expiresIn && currentTime > context.getters.expiresIn - 1000 * 60 * TIME_TO_REFRESH) {
       try {
         const { data } = await axios.get(`${API_URL}/auth/refresh`, {
           headers: { Authorization: `Bearer ${context.getters.token}` }
         })
         context.dispatch('setToken', { token: data.access_token, expiresIn: getExpiresIn(data.expires_in) })
       } catch (error) {
-        console.error(error.response.data.message)
+        // console.error(error.response.data.message)
         LocalStorage.remove('auth')
         context.commit('setState', { token: null, expiresIn: null })
       }
