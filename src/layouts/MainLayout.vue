@@ -15,7 +15,8 @@
           <q-btn to="/" label="Free ERP" size="lg" icon="business" flat no-caps />
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <login-buttons></login-buttons>
+
       </q-toolbar>
     </q-header>
 
@@ -30,23 +31,24 @@
           header
           class="text-grey-8"
         >
-          Essential Links
+          Main menu
         </q-item-label>
         <q-essential-link
           v-for="link in essentialLinks"
           :key="link.title"
           v-bind="link"
         />
+        <q-separator />
         <q-essential-link
           v-if="!$store.getters['auth/isLoggedIn']"
           title="Login"
           icon="login"
           link="login"
         />
-        <q-btn
+        <q-essential-link
           flat
           v-else
-          label="Logout"
+          title="Logout"
           icon="account_circle"
           @click="logout"
         />
@@ -119,6 +121,9 @@ const linksData = [
 
 export default {
   name: 'MainLayout',
+  components: {
+    'login-buttons': require('@/components/auth/LoginButtons').default
+  },
   data () {
     return {
       leftDrawerOpen: false,

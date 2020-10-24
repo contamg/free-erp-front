@@ -5,5 +5,8 @@ export default {
   },
   setErrors (state, payload) {
     state.errors = payload
+  },
+  setUser (state, payload) {
+    state.user = payload
   }
 }

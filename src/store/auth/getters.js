@@ -10,5 +10,8 @@ export default {
   },
   isLoggedIn (state) {
     return !!state.token
+  },
+  user (state) {
+    return state.user
   }
 }

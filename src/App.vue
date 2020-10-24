@@ -8,7 +8,7 @@
 export default {
   name: 'App',
   async beforeCreate () {
-    await this.$store.dispatch('auth/verifyLogin')
+    await this.$store.dispatch('auth/loadToken')
   }
 }
 </script>

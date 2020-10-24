@@ -1,15 +1,11 @@
 import axios from 'axios'
 
-// import { getExpiresIn } from '@/utils'
-
 const API_URL = process.env.VUE_APP_API_URL
 
 export default {
   async getAccounts (context, payload) {
     context.dispatch('shouldUpdate')
     if (!context.getters.shouldUpdate) return
-
-    // await context.dispatch('auth/refreshToken', null, { root: true })
 
     try {
       const { data } = await axios.get(`${API_URL}/accounts`, {

@@ -27,14 +27,14 @@ export default function ({ store }) {
   })
 
   Router.beforeEach(async function (to, _, next) {
+    store.dispatch('auth/verifyLogin')
     if (to.meta.requiresAuth && !store.getters['auth/isLoggedIn']) {
       next('/login')
-    } else if (to.meta.requiresUnAuth && store.getters['auth/isLoggedIn']) {
+    } else if (to.path !== '/' && !to.meta.requiresAuth && store.getters['auth/isLoggedIn']) {
       next('/')
     } else {
-      await store.dispatch('auth/refreshToken')
-      if (to.meta.requiresAuth && !store.getters['auth/isLoggedIn']) {
-        next('/login')
+      if (store.getters['auth/isLoggedIn']) {
+        await store.dispatch('auth/refreshToken')
       }
       next()
     }
